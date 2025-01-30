@@ -30,7 +30,7 @@ def main(URL):
     return campionData(champions)
 outputData = main(pageURL)
 keys = ["Champion", "Week", "Status", "First Team", "Second Team", "Result", "Time"]
-with open("Scraped-Data.csv", "w", encoding='utf-8') as file:
+with open("Scraped-Data.csv", "w", encoding='utf-8') as file:  # encoding here is vital as the scraping is on Arabic data.
     o = csv.DictWriter(file, keys)
     o.writeheader()
     o.writerows(outputData)
