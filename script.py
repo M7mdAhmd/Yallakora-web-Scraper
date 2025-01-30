@@ -10,3 +10,21 @@ def main(URL):
     rawData = requests.get(URL).content
     data = BeautifulSoup(rawData, "lxml")
     champions = data.find_all("div", {"class":"matchCard"})
+    def campionData(championsList):
+        championsData = []
+        for champion in championsList:
+            ChampionTitle = champion.contents[1].find("h2").text.strip() # == champion.find("div", {"class":"title"}).find("h2").text.strip()
+            championMatches = champion.contents[3].find_all("div", {"class":"item"})
+            for match in championMatches:
+                championTitle = ChampionTitle
+                week = match.find("div", {"class":"allData"}).find("div", {"class":"date"}).text.strip()
+                status = match.find("div", {"class":"allData"}).find("div", {"class":"matchStatus"}).text.strip()
+                teamA = match.find("div", {"class":"allData"}).find("div", {"class":"teamsData"}).find("div", {"class":"teamA"}).text.strip()
+                teamB = match.find("div", {"class":"allData"}).find("div", {"class":"teamsData"}).find("div", {"class":"teamB"}).text.strip()
+                result = match.find("div", {"class":"allData"}).find("div", {"class":"teamsData"}).find("div", {"class":"MResult"}).find_all("span", {"class":"score"})
+                time= match.find("div", {"class":"allData"}).find("div", {"class":"teamsData"}).find("div", {"class":"MResult"}).find("span", {"class":"time"}).text.strip()
+                matchResult = f"{result[0].text.strip()}-{result[1].text.strip()}"
+                matchData = {"Champion":championTitle, "Week":week, "Status":status, "First Team":teamA, "Second Team":teamB, "Result":matchResult, "Time":time}
+                championsData.append(matchData)
+        return championsData
+    return campionData(champions)
