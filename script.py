@@ -28,3 +28,9 @@ def main(URL):
                 championsData.append(matchData)
         return championsData
     return campionData(champions)
+outputData = main(pageURL)
+keys = ["Champion", "Week", "Status", "First Team", "Second Team", "Result", "Time"]
+with open("Scraped-Data.csv", "w", encoding='utf-8') as file:
+    o = csv.DictWriter(file, keys)
+    o.writeheader()
+    o.writerows(outputData)
